@@ -1,0 +1,79 @@
+class Account {
+    String acc_name, acc_no, acc_type;
+    double balance;
+    Account(String name, String no, String acc, double bal) {
+        this.acc_name = name;
+        this.acc_no = no;
+        this.acc_type = acc;
+        this.balance = bal;
+    }
+    void deposit(double amt) {
+        balance = balance + amt;
+        System.out.println("Deposit = "+ amt);
+    }
+    void withdraw(double amt) {
+        if (amt>balance)
+            System.out.println("Insufficient Balance");
+        else{
+            balance -= amt;
+            System.out.println("Withdrawal Amount = "+amt);
+        }
+    }
+    void checkBalance() {
+        System.out.println("Available Balance = "+balance);
+    }
+}
+
+class CurAcct extends Account {
+    CurAcct(String name, String no, double bal) {
+        super(name, no, "Current Account", bal);
+    }
+    void minBal(){
+        if (balance < 5000) {
+            System.out.println("Min Balance in Bank Account should be 5000\nService Charge of 100/- will be charged");
+            this.balance = balance - 100.0;
+        }
+    }
+    void cheque(double amt) {
+        balance -= amt;
+        System.out.println("Cheque Amount = "+amt);
+    }
+}
+
+class SavAcct extends Account {
+    SavAcct(String name, String no, double bal) {
+        super(name, no, "Saving Account", bal);
+    }
+    void compInt(double r, double t) {
+        double pri = balance;
+        double interest = balance * (Math.pow((1 + (r * 0.01)), t) - 1);
+        pri += interest;
+        System.out.println("Interest Earned on "+r+"% for "+t+" years is "+interest);
+        System.out.println("Balance after "+t+" years will be "+pri);
+    }
+}
+
+class Bank{
+    public static void main(String[] args) {
+        
+        SavAcct sa1 = new SavAcct("Rishit", "177", 35000);
+        System.out.println("Name = "+sa1.acc_name+"\nAccount No. = "+sa1.acc_no+"\nAccount Type = "+sa1.acc_type);
+        sa1.checkBalance();
+        sa1.deposit(5000);
+        sa1.withdraw(10000);
+        sa1.checkBalance();
+        sa1.compInt(7, 3);
+        
+        CurAcct ca2 = new CurAcct("Ria", "071", 3000);
+        System.out.println("\nName = "+ca2.acc_name+"\nAccount No. = "+ca2.acc_no+"\nAccount Type = "+ca2.acc_type);
+        ca2.minBal();
+        ca2.checkBalance();
+        CurAcct ca1 = new CurAcct("Richa", "315", 17000);
+        System.out.println("\nName = "+ca1.acc_name+"\nAccount No. = "+ca1.acc_no+"\nAccount Type = "+ca1.acc_type);
+        ca1.minBal();
+        ca1.checkBalance();
+        ca1.cheque(3000);
+        ca1.deposit(7000);
+        ca1.checkBalance();
+    }
+}
